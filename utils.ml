@@ -14,9 +14,10 @@ let rec free_in_term v t =
 let rec free_in_formula v f =
   match f with
   | Rel (_, terms) -> List.exists (free_in_term v) terms
-  | Forall (x, f') -> (*x <> v &&*) free_in_formula v f'
+  | Forall (x, f') -> free_in_formula v f'
   | Imp (f1, f2) -> free_in_formula v f1 || free_in_formula v f2
   | Bot -> false
+
 
 (*
 let rec subst_in_term sub t_sub term = 
@@ -33,7 +34,7 @@ let rec subst_in_term sub t_sub term =
   | x when x = sub -> t_sub 
   | _ -> term
 
-
+(*
 let rec subst_in_formula sub t_sub f =
   match f with
   | Rel (r, terms) -> 
@@ -44,39 +45,39 @@ let rec subst_in_formula sub t_sub f =
   | Forall (x, f') ->
     if x = sub then f
     else Forall (x, subst_in_formula sub t_sub f')
-
+*)
 
 (**konwersja formuly podanej przez uzytkownika na formule z indeksami de Bruijna*)
 let rec db_term var_map k t =
   match t with
-  |Var_u (s) ->
+  |UVar (s) ->
     if VarMap.mem s var_map then 
       let d = (VarMap.find s var_map) in Bound(k - d)
     else Free(s)
-  |Func_u (f, terms) -> Func(f, (List.map (db_term var_map k) terms))
+  |UFunc (f, terms) -> Func(f, (List.map (db_term var_map k) terms))
 
 
 let db_convert f = 
   let rec convert var_map k f= 
     match f with
-    |Bot_u -> Bot 
-    |Rel_u(r, terms) -> Rel(r, (List.map (db_term var_map k) terms))
-    |Imp_u(f1, f2) -> Imp((convert var_map k f1),(convert var_map k f2))
-    |Forall_u(x, f) -> Forall(x, (convert (VarMap.add x k var_map) (k+1) f)) in
+    |UBot -> Bot 
+    |URel(r, terms) -> Rel(r, (List.map (db_term var_map k) terms))
+    |UImp(f1, f2) -> Imp((convert var_map k f1),(convert var_map k f2))
+    |UForall(x, f) -> Forall(x, (convert (VarMap.add x k var_map) (k+1) f)) in
   convert VarMap.empty 0 f
 
 let rec print_term_u = function
-  | Var_u v -> v
-  | Func_u (f, args) -> 
+  | UVar v -> v
+  | UFunc (f, args) -> 
       f ^ "(" ^ String.concat ", " (List.map print_term_u args) ^ ")"
 
 let rec print_formula_u = function
-  | Bot_u -> "⊥"
-  | Rel_u (rel, args) -> 
+  | UBot -> "⊥"
+  | URel (rel, args) -> 
       rel ^ "(" ^ String.concat ", " (List.map print_term_u args) ^ ")"
-  | Imp_u (f1, f2) -> 
+  | UImp (f1, f2) -> 
       "(" ^ print_formula_u f1 ^ " → " ^ print_formula_u f2 ^ ")"
-  | Forall_u (v, f) -> 
+  | UForall (v, f) -> 
       "∀" ^ v ^ ".(" ^ print_formula_u f ^ ")"
 
 let rec print_term t = 

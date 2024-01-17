@@ -1,0 +1,4 @@
+(executable
+ (public_name asystent)
+ (name main)
+ (libraries asystent))

@@ -26,6 +26,8 @@ struct
   let sum xs ys =
       xs @ List.filter (fun x -> not (List.mem x xs)) ys
 
+
+
   let by_assumption f = 
     [f], f
 
@@ -58,11 +60,12 @@ struct
     else
       (a, Forall(x, c))
 
+      (*
   let forall_e thm t =
     let a = assumptions thm in
     let c = consequence thm in
     match c with
     | Forall (x, f) -> (a, subst_in_formula x t f)
     | _ -> failwith "error in forall elimination"
-
+*)
 end

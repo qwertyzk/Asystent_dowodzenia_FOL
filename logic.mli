@@ -11,7 +11,7 @@ open Formula
 open Utils
 
 (** reprezentacja twierdzeń *)
-type theorem
+type theorem = formula list * formula
 
 val axiom: T.axiom -> theorem
 
@@ -54,6 +54,6 @@ val bot_e : formula -> theorem -> theorem
 val forall_i : theorem->string->theorem
 
 (**Zasada elminacji kwantyfikatora ogólnego *)
-val forall_e : theorem->term->theorem
+(* val forall_e : theorem->term->theorem *)
 
 end
