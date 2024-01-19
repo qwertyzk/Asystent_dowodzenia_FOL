@@ -1,3 +1,4 @@
 (executable
- (name proof)
- (libraries lib))
+ (public_name asystent)
+ (name main)
+ (libraries asystent))
