@@ -1,4 +1,4 @@
-# dune exec ./bin/main.exe
+# dune build bin/proof.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location: /home/trivium/.cache/dune/db
@@ -20,4 +20,20 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_52c381_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_5328ec_output
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I lib/.lib.objs/byte -no-alias-deps -opaque -open Lib -o lib/.lib.objs/byte/lib__Logic.cmi -c -intf lib/logic.mli)
+> File "lib/logic.mli", line 11, characters 0-10:
+> 11 | open Utils
+>      ^^^^^^^^^^
+> Error (warning 33 [unused-open]): unused open Lib.Utils.
+[2]
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.lib.objs/byte -I lib/.lib.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Lib -o lib/.lib.objs/native/lib__Utils.cmx -c -impl lib/utils.ml)
+> File "lib/utils.ml", line 17, characters 12-13:
+> 17 |   | Forall (x, f') -> free_in_formula v f'
+>                  ^
+> Error (warning 27 [unused-var-strict]): unused variable x.
+> File "lib/utils.ml", line 31, characters 8-21:
+> 31 | let rec subst_in_term sub t_sub term = 
+>              ^^^^^^^^^^^^^
+> Error (warning 32 [unused-value-declaration]): unused value subst_in_term.
+[2]

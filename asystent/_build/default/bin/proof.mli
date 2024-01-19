@@ -22,7 +22,7 @@ module Proof(T : Theory) : sig
     | ImpI    of goal * proof_tree
     | ImpE    of goal * proof_tree * proof_tree
     | ForAllI of goal * proof_tree
-    | ForAllE of goal * proof_tree
+    | ForAllE of goal * proof_tree * term
 
     type context = 
     | Root
@@ -31,7 +31,7 @@ module Proof(T : Theory) : sig
     | C_ImpE_L  of goal * context * proof_tree
     | C_ImpE_R  of goal * proof_tree * context 
     | C_ForAllI of goal * context 
-    | C_ForAllE of goal * context
+    | C_ForAllE of goal * context * term (*na ciul ten term?*)
 
     (** Tworzy pusty dowód podanego twierdzenia *)
     val proof : (string * u_formula) list -> u_formula -> proof
