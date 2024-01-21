@@ -7,7 +7,7 @@ end
 module Proof(T : Theory) =
 struct
   open Formula
-  open User_formula
+  (* open User_formula *)
   open Logic.Logic(T)
   open Utils
 

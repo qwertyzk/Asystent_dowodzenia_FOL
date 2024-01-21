@@ -53,7 +53,7 @@ let rec db_term var_map k t =
   | UVar s ->
       if VarMap.mem s var_map then 
         let d = (VarMap.find s var_map) in
-        Bound(k - d)
+        Bound(k - d - 1)
       else Free(s)
 
 
@@ -75,7 +75,7 @@ let rec rev_db_term var_map k t =
   | Func (f, ts) -> UFunc(f, (List.map (rev_db_term var_map k) ts))
   | Free x -> UVar x
   | Bound s ->
-    match (IntMap.find_opt (k - s) var_map) with
+    match (IntMap.find_opt (k - s - 1) var_map) with
     | Some name -> UVar name
     | None -> failwith "masakra"
 
@@ -88,34 +88,6 @@ let rev_db_convert f =
     | Imp (f1, f2)   -> UImp((convert var_map k f1),(convert var_map k f2))
     | Forall (x, f)  -> UForall(x, (convert (IntMap.add k x var_map) (k+1) f)) in
   convert IntMap.empty 0 f
-
-
-let rec print_term_u = function
-  | UVar v -> v
-  | UFunc (f, args) -> 
-      f ^ "(" ^ String.concat ", " (List.map print_term_u args) ^ ")"
-
-let rec print_formula_u = function
-  | UBot -> "⊥"
-  | URel (rel, args) -> 
-      rel ^ "(" ^ String.concat ", " (List.map print_term_u args) ^ ")"
-  | UImp (f1, f2) -> 
-      "(" ^ print_formula_u f1 ^ " → " ^ print_formula_u f2 ^ ")"
-  | UForall (v, f) -> 
-      "∀" ^ v ^ ".(" ^ print_formula_u f ^ ")"
-
-let rec print_term t = 
-  match t with
-  | Free s -> s
-  | Bound i -> "BoundVar" ^ string_of_int i
-  | Func (f, terms) -> f ^ "(" ^ (String.concat ", " (List.map print_term terms)) ^ ")"
-
-let rec print_formula f = 
-  match f with
-  | Rel (r, terms) -> r ^ "(" ^ (String.concat ", " (List.map print_term terms)) ^ ")"
-  | Forall (x, f') -> "∀" ^ x ^ ". " ^ (print_formula f')
-  | Imp (f1, f2) -> "(" ^ (print_formula f1) ^ " → " ^ (print_formula f2) ^ ")"
-  | Bot -> "⊥"
 
 (* funkcja ktora dla kwantyfikatora usuwa go i podstawia dana zmienna
    pod jego wiazania*)
@@ -152,3 +124,34 @@ let rec eq_form f1 f2=
   |(Imp(f3,f4),Imp(f5,f6))->(eq_form f3 f5) && (eq_form f4 f6)
   |(Forall(_,f3),Forall(_,f4))->(eq_form f3 f4)
   |_->false 
+
+
+let rec print_term_u = function
+  | UVar v -> v
+  | UFunc (f, args) -> 
+      f ^ "(" ^ String.concat ", " (List.map print_term_u args) ^ ")"
+
+let rec print_formula_u = function
+  | UBot -> "⊥"
+  | URel (rel, args) -> 
+      rel ^ "(" ^ String.concat ", " (List.map print_term_u args) ^ ")"
+  | UImp (f1, f2) -> 
+      "(" ^ print_formula_u f1 ^ " → " ^ print_formula_u f2 ^ ")"
+  | UForall (v, f) -> 
+      "∀" ^ v ^ ".(" ^ print_formula_u f ^ ")"
+
+let rec print_term t = 
+  match t with
+  | Free s -> s
+  | Bound i -> string_of_int i
+  | Func (f, terms) -> f ^ "(" ^ (String.concat ", " (List.map print_term terms)) ^ ")"
+
+let rec print_formula f = 
+  match f with
+  | Rel (r, terms) -> r ^ "(" ^ (String.concat ", " (List.map print_term terms)) ^ ")"
+  | Forall (x, f') -> "∀" ^ x ^ ". " ^ (print_formula f')
+  | Imp (f1, f2) -> "(" ^ (print_formula f1) ^ " → " ^ (print_formula f2) ^ ")"
+  | Bot -> "⊥"
+
+  
+

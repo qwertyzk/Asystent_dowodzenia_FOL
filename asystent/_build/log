@@ -1,4 +1,4 @@
-# dune build --profile release
+# dune utop lib
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location: /home/trivium/.cache/dune/db
@@ -7,7 +7,7 @@
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
-#  ; profile = Release
+#  ; profile = Dev
 #  ; merlin = true
 #  ; fdo_target_exe = None
 #  ; build_dir = In_build_dir "default"
@@ -20,32 +20,4 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_a03feb_output
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -w -49 -nopervasives -nostdlib -g -bin-annot -I lib/.asystent.objs/byte -no-alias-deps -o lib/.asystent.objs/byte/asystent.cmo -c -impl lib/asystent.ml-gen)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I test/.test_asystent.eobjs/byte -no-alias-deps -o test/.test_asystent.eobjs/byte/dune__exe__Test_asystent.cmi -c -intf test/test_asystent.mli)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Formula.cmi -c -intf lib/formula.mli)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__User_formula.cmi -c -intf lib/user_formula.mli)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -w -49 -nopervasives -nostdlib -g -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml-gen -no-alias-deps -o lib/.asystent.objs/native/asystent.cmx -c -impl lib/asystent.ml-gen)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__User_formula.cmo -c -impl lib/user_formula.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Logic.cmi -c -intf lib/logic.mli)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Formula.cmo -c -impl lib/formula.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Utils.cmi -c -intf lib/utils.mli)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I test/.test_asystent.eobjs/byte -I test/.test_asystent.eobjs/native -intf-suffix .ml -no-alias-deps -o test/.test_asystent.eobjs/native/dune__exe__Test_asystent.cmx -c -impl test/test_asystent.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/native/asystent__User_formula.cmx -c -impl lib/user_formula.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/native/asystent__Formula.cmx -c -impl lib/formula.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Proof.cmi -c -intf lib/proof.mli)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Logic.cmo -c -impl lib/logic.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Peano.cmo -c -impl lib/peano.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Utils.cmo -c -impl lib/utils.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I bin/.main.eobjs/byte -I lib/.asystent.objs/byte -no-alias-deps -o bin/.main.eobjs/byte/dune__exe__Main.cmi -c -intf bin/main.mli)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I lib/.asystent.objs/byte -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/byte/asystent__Proof.cmo -c -impl lib/proof.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -a -o lib/asystent.cma lib/.asystent.objs/byte/asystent.cmo lib/.asystent.objs/byte/asystent__Formula.cmo lib/.asystent.objs/byte/asystent__User_formula.cmo lib/.asystent.objs/byte/asystent__Utils.cmo lib/.asystent.objs/byte/asystent__Logic.cmo lib/.asystent.objs/byte/asystent__Proof.cmo lib/.asystent.objs/byte/asystent__Peano.cmo)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/native/asystent__Utils.cmx -c -impl lib/utils.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/native/asystent__Peano.cmx -c -impl lib/peano.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/native/asystent__Logic.cmx -c -impl lib/logic.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -o test/test_asystent.exe test/.test_asystent.eobjs/native/dune__exe__Test_asystent.cmx)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml -no-alias-deps -open Asystent -o lib/.asystent.objs/native/asystent__Proof.cmx -c -impl lib/proof.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I lib/.asystent.objs/byte -I lib/.asystent.objs/native -intf-suffix .ml -no-alias-deps -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -a -o lib/asystent.cmxa lib/.asystent.objs/native/asystent.cmx lib/.asystent.objs/native/asystent__Formula.cmx lib/.asystent.objs/native/asystent__User_formula.cmx lib/.asystent.objs/native/asystent__Utils.cmx lib/.asystent.objs/native/asystent__Logic.cmx lib/.asystent.objs/native/asystent__Proof.cmx lib/.asystent.objs/native/asystent__Peano.cmx)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -shared -linkall -I lib -o lib/asystent.cmxs lib/asystent.cmxa)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -o bin/main.exe lib/asystent.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_706120_output
