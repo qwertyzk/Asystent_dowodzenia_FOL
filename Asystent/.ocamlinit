@@ -1,0 +1,15 @@
+
+open Asystent
+open Formula
+open User_formula
+open Utils
+open Peano.Peano
+open Logic.Logic(Peano.Peano)
+open Proof.Proof(Peano.Peano)
+
+#install_printer pp_print_proof
+#install_printer pp_print_proof_tree
+#install_printer pp_print_context
+#install_printer pp_print_Uformula
+#install_printer pp_print_goal
+#install_printer pp_print_theorem
