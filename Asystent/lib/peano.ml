@@ -4,10 +4,10 @@ open Utils
 
 module Peano = struct
 type axiom =
-| EqRefl of string (* ∀x.x = x *)
-| EqElim of string * string * string * u_formula (* ∀y.∀z.y = z ⇒φ{x→y}⇒φ{x→z} *)
-| PlusZ of string (* ∀n.0 + n = n *)
-| PlusS of string * string (* ∀n.∀m.S(n) + m = S(n + m) *)
+| EqRefl    of string (* ∀x.x = x *)
+| EqElim    of string * string * string * u_formula (* ∀y.∀z. (y = z) ⇒ (φ{x→y} ⇒ φ{x→z}) *)
+| PlusZ     of string (* ∀n.0 + n = n *)
+| PlusS     of string * string (* ∀n.∀m.S(n) + m = S(n + m) *)
 | Induction of string * string * u_formula
 
 let axiom ax =
@@ -15,7 +15,10 @@ let axiom ax =
   | EqRefl(x) ->
       Forall(x, Rel("=", [Bound(0); Bound(0)]))
   | EqElim(n1, n2, x, f) ->
-      let dbf = db_convert f in
+    let map = VarMap.empty
+      |> VarMap.add n1 0
+      |> VarMap.add n2 1 in 
+    let dbf = convert map 2 f in
       Forall(n1,
         Forall(n2,
           Imp(

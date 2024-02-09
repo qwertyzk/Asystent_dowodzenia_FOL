@@ -1,1 +1,1 @@
-lib/peano.ml: Formula User_formula Utils
+lib/peano.ml: Formula User_formula Utils VarMap

@@ -1,6 +1,7 @@
 open Formula
 open User_formula
 
+module VarMap : Map.S with type key = string
 
 (* Sprawdza, czy zmienna jest wolna w termie/formule *)
 val free_in_term : string->term->bool
@@ -11,6 +12,7 @@ val is_fresh : string -> ('a * formula) list -> bool
 
 (* Konwersja formuł podanych przez użytkownika do postaci z indeksami de Bruijna i na odwrót *)
 val db_convert : u_formula -> formula
+val convert : int VarMap.t -> int -> u_formula -> formula
 val rev_db_convert : formula -> u_formula
 
 (* Konwersja termu podanego przez użytkownika *)

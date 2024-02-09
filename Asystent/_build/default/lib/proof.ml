@@ -17,28 +17,28 @@ struct
 
 
   type proof_tree =
-    | Goal of    goal
-    | Lemat of   theorem
-    | BotE of    goal * proof_tree
-    | ImpI of    goal * proof_tree
-    | ImpE of    goal * proof_tree * proof_tree
+    | Goal    of goal
+    | Lemat   of theorem
+    | BotE    of goal * proof_tree
+    | ImpI    of goal * proof_tree
+    | ImpE    of goal * proof_tree * proof_tree
     | ForAllI of goal * proof_tree
     | ForAllE of goal * proof_tree
 
 
   type context = 
     | Root
-    | C_BotE of    goal * context 
-    | C_ImpI of    goal * context 
-    | C_ImpE_L of  goal * context * proof_tree
-    | C_ImpE_R of  goal * proof_tree * context 
+    | C_BotE    of goal * context 
+    | C_ImpI    of goal * context 
+    | C_ImpE_L  of goal * context * proof_tree
+    | C_ImpE_R  of goal * proof_tree * context 
     | C_ForAllI of goal * context 
     | C_ForAllE of goal * context
 
 
   type proof = 
-  | Comp of   theorem
-  | Incomp of goal * context
+    | Comp   of theorem
+    | Incomp of goal * context
 
 
   let proof gamma f =
@@ -119,16 +119,14 @@ struct
     let dbf = db_convert u_form in
     apply_form dbf pf
 
-  
-
 
   let toTheorem tree =
     match tree with
+    | Lemat _                  -> failwith "Already a theorem."
     | Goal (a,g)               -> ((List.map snd a), g)
-    | Lemat _                  -> failwith "co"
     | BotE ((a,g), _)          -> ((List.map snd a), g)
     | ImpI((a,g), _)           -> ((List.map snd a), g)
-    | ImpE((a,g), _, _) -> ((List.map snd a), g)
+    | ImpE((a,g), _, _)        -> ((List.map snd a), g)
     | ForAllI((a,g), _)        -> ((List.map snd a), g)
     | ForAllE((a,g), _)        -> ((List.map snd a), g)
 
@@ -167,6 +165,9 @@ struct
         let incomplete_pf = (apply_form (consequence th) pf) in
         complete incomplete_pf th
 
+  let apply_axiom a pf =
+    apply_thm (axiom a) pf
+
   let apply_assm name pf =
     match pf with
   | Comp _              -> pf
@@ -175,21 +176,20 @@ struct
       apply_thm (by_assumption assm) pf
 
 
-
   let forall_intro pf fresh =
     match pf with
     | Comp _ -> failwith "Proof is already complete."
     | Incomp ((a,f), ctx) ->
       match f with
       | Forall (_, ff) -> 
-        if is_fresh fresh a then
+        if is_fresh fresh (("H1",f)::a) then
           let f' = remove_bound (Free fresh) ff in
           Incomp ((a,f'), (C_ForAllI ((a,f), ctx)))
         else failwith "Not a fresh variable."
       | _   -> failwith "Expected Forall."
 
 
-  let forall_elim pf t form=
+  let forall_elim pf t form =
     match pf with
     | Comp _ -> failwith "Proof is already complete."
     | Incomp ((a,f), ctx) ->
@@ -206,13 +206,14 @@ struct
     
     
 
+  (* funkcje printujace *)
   let pp_print_assumption fmtr (var, dbf) =
     let u_form = rev_db_convert dbf in
     fprintf fmtr "(%s, %a)" var pp_print_Uformula u_form
 
 
   let pp_print_assumptions fmtr assms =
-    pp_open_hvbox fmtr 2;
+    pp_open_hvbox fmtr 0;
     begin match assms with
     | [] -> ()
     | (tag, f) :: fs ->
@@ -234,7 +235,7 @@ struct
 
 
   let rec pp_print_proof_tree fmtr tree =
-    pp_open_hvbox fmtr 2;
+    pp_open_hvbox fmtr 0;
     begin
       match tree with
       | Goal goal -> fprintf fmtr "Goal: %a" pp_print_goal goal
@@ -273,12 +274,39 @@ struct
   let pp_print_proof fmtr proof =
     match proof with
     | Comp theorem ->
-      pp_open_hvbox fmtr 2;
-      fprintf fmtr "Proven:@ %a" pp_print_theorem theorem;
-      pp_close_box fmtr ()
+        pp_open_tbox fmtr (); 
+        pp_open_vbox fmtr 0;
+        fprintf fmtr "Proven.";
+        pp_print_newline fmtr ();
+        pp_print_newline fmtr ();
+
+        pp_print_theorem fmtr theorem;
+        pp_close_box fmtr ();
+        pp_close_box fmtr ();
     | Incomp (goal, context) ->
-      pp_open_vbox fmtr 2;
-      fprintf fmtr "Unproven:@ %a,@ %a" pp_print_goal goal pp_print_context context;
-      pp_close_box fmtr ()
+        pp_open_tbox fmtr ();  
+        pp_open_vbox fmtr 0;  
+        pp_print_newline fmtr ();
+        fprintf fmtr "Unproven.";
+        pp_print_newline fmtr ();
+        pp_print_newline fmtr ();
+
+        pp_open_vbox fmtr 2;
+          fprintf fmtr "Active goal: ";
+          pp_print_space fmtr ();
+          pp_print_goal fmtr goal;
+        pp_close_box fmtr ();  
+        
+        pp_print_newline fmtr ();
+        pp_print_newline fmtr ();
+
+        pp_open_vbox fmtr 2; 
+          fprintf fmtr "Context: ";
+          pp_print_space fmtr ();
+          pp_print_context fmtr context;
+        pp_close_box fmtr ();  
+    
+    
+        pp_close_box fmtr ()  
   
 end  

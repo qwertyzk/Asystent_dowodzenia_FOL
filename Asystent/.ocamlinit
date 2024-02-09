@@ -13,3 +13,4 @@ open Proof.Proof(Peano.Peano)
 #install_printer pp_print_Uformula
 #install_printer pp_print_goal
 #install_printer pp_print_theorem
+

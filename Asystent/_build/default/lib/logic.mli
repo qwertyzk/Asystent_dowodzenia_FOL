@@ -1,9 +1,9 @@
-module type Theory=sig
+module type Theory = sig
     open Formula
-  
     type axiom
     val axiom : axiom -> formula
-  end
+end
+
   
 module Logic(T : Theory): sig
   

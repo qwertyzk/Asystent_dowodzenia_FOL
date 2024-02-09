@@ -1,1 +1,1 @@
-lib/utils.mli: Format Formula User_formula
+lib/utils.mli: Format Formula Map User_formula

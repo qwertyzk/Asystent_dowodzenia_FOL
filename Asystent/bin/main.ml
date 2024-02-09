@@ -1,12 +1,13 @@
-open Asystent
+(* open Asystent
 open Peano
-(* open User_formula *)
+open User_formula 
 
 
 
 open Proof.Proof(Peano)
 
-(* let t = UForall("x", UForall("y", UImp(URel("=", [UVar "x"; UVar "y"]), URel("=", [UVar "y"; UVar "x"]))));; *)
+(* 
+let t = UForall("x", UForall("y", UImp(URel("=", [UVar "x"; UVar "y"]), URel("=", [UVar "y"; UVar "x"]))));;
 let pf = proof [] t;;
 let pf = forall_intro pf "x";;
 let pf = forall_intro pf "y";;
@@ -22,8 +23,16 @@ let pf = forall_elim pf (UVar "x") t;;
 
 let a =  EqElim("x", "y", "a", (URel ("=",[ UVar "a"; UVar "x"])));;
 
+let pf = apply_axiom a pf;;
 
-(*printowanie poddrzew troche chujowe. Co sie odwala z axiom*)
+let pf = apply_assm "H1" pf;;
+
+let pf = forall_elim pf (UVar "x") (UForall("x", URel("=", [UVar "x"; UVar "x"])));;
+
+let pf =  apply_axiom (EqRefl "x") pf;;
+
+
+
 
 
 
@@ -32,3 +41,5 @@ let a = axiom a;;
 let f = UForall("a", URel("=", [UVar "a"; UVar "a"]));;
 let pf = proof [] f;;
 let pf = apply_thm a pf;;
+
+*)

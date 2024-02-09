@@ -32,7 +32,7 @@ module Proof(T : Theory) : sig
     | C_ForAllE of goal * context
 
     type proof = private
-    | Comp of   theorem
+    | Comp   of theorem
     | Incomp of goal * context
 
 
@@ -94,6 +94,7 @@ module Proof(T : Theory) : sig
     wypełniona przez thm *)
 
     val apply_thm : theorem -> proof -> proof
+    val apply_axiom : T.axiom -> proof -> proof
 
 
     (** Wywołanie apply_assm name pf
@@ -101,11 +102,14 @@ module Proof(T : Theory) : sig
     gdzie f jest założeniem o nazwie name *)
     val apply_assm : string -> proof -> proof
 
-    (* val pp_print_proof : Format.formatter -> proof -> unit *)
-
+    (** Eliminacja Forall, przyjmuje dowód, term (który należy podstawić pod pierwszą kwantyfikowaną zmienną) oraz formułę będącą Forall *)
     val forall_elim : proof -> u_term -> u_formula -> proof
+
+    (** Wprowadzanie Forall, przyjmuje dowód i świeżą nazwę zmiennej *)
     val forall_intro : proof -> string -> proof
 
+
+    (** Funkcje printujące. *)
     val pp_print_proof : formatter -> proof-> unit
     val pp_print_goal : formatter -> goal-> unit
     val pp_print_proof_tree : formatter -> proof_tree-> unit
