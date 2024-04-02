@@ -1,1 +1,0 @@
-lib/logic.mli: Formula

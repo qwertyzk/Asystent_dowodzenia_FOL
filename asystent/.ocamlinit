@@ -1,3 +1,0 @@
-open Asystent
-open Proof.Proof(Peano.Peano)
-open Formula

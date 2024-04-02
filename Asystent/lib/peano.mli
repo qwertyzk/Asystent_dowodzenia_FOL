@@ -2,7 +2,6 @@ open Formula
 open User_formula
 
 module Peano : sig
-    (* Nazwy są pobierane od użytkownika, a nie generowane. (Nie muszą być świeże, bo program operuje na indeksach. Nazwy są tylko dla użytkownika, dlatego może je sam wybrać.)*)
     type axiom =
     | EqRefl of string (* ∀x.x = x *)
     | EqElim of string * string * string * u_formula (* ∀y.∀z.y = z ⇒φ{x→y}⇒φ{x→z} *)

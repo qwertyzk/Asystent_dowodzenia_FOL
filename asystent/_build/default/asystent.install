@@ -1,8 +1,0 @@
-lib: [
-  "_build/install/default/lib/asystent/META"
-  "_build/install/default/lib/asystent/dune-package"
-  "_build/install/default/lib/asystent/opam"
-]
-bin: [
-  "_build/install/default/bin/asystent"
-]
